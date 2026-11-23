@@ -1,12 +1,13 @@
 from app.config import settings
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy import text 
+from sqlalchemy.orm import Session
+
+from app.db import get_db
 
 app = FastAPI(title=settings.app_name)
 
-@app.get("/api/health")
-def health():
-    return {'status ':'ok'}
-
-@app.get("/api/hello/{name}")
-def hello(name: str):
-    return {"message": f"Сайн уу, {name}!"}
+@app.get("api/health")
+def health(db: Session = Depends(get_db)):
+    db.execute(text("SELECT 1"))
+    return {"status": "ok", "database": "ok "}
