@@ -1,6 +1,7 @@
+from app.config import settings
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(title=settings.app_name)
 
 @app.get("/api/health")
 def health():
